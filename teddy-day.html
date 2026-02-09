@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teddy Day for Sanidhya 🧸🤍</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #1b0f14, #12080c, #080405);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: #ffe6ee;
+    }
+
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .star {
+      position: absolute; width: 2px; height: 2px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 50%; animation: twinkle 3s infinite ease-in-out;
+    }
+    @keyframes twinkle { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+    .hearts { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+    .heart {
+      position: absolute; bottom: -20px; font-size: 1.1rem;
+      animation: floatUp 6s linear infinite; opacity: 0.8;
+    }
+    @keyframes floatUp {
+      0%{transform:translateY(0) scale(1);opacity:0}
+      10%{opacity:1}
+      100%{transform:translateY(-120vh) scale(1.4);opacity:0}
+    }
+
+    .card {
+      background: rgba(30, 12, 18, 0.85);
+      backdrop-filter: blur(16px);
+      border-radius: 34px;
+      padding: 3rem 2.6rem 3.2rem;
+      max-width: 460px; width: 92%; text-align: center;
+      box-shadow: 0 30px 70px rgba(255, 90, 130, 0.25);
+      animation: fadeUp 1.2s ease; position: relative; z-index: 2;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; margin-bottom: .6rem; color: #ff9bb3;
+    }
+    .subtitle { font-size:.95rem; opacity:.8; margin-bottom:1.8rem }
+
+    .teddy {
+      font-size: 6rem; cursor: pointer;
+      animation: idle 3s ease-in-out infinite;
+      margin: 1.4rem 0 1.8rem;
+      filter: drop-shadow(0 0 12px rgba(255,155,180,.4));
+      user-select: none;
+    }
+    @keyframes idle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    .message {
+      background: rgba(255,255,255,.08);
+      border-radius: 22px; padding: 1.6rem;
+      font-size: 1rem; line-height: 1.7; min-height: 90px;
+      box-shadow: inset 0 0 20px rgba(255,160,190,.12);
+    }
+
+    .hint { margin-top:1rem; font-size:.8rem; opacity:.65 }
+    .music { margin-top:1.2rem; font-size:.75rem; opacity:.55 }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="card">
+    <h1>Happy Teddy Day, Sanidhya 🧸🤍</h1>
+    <div class="subtitle">I couldn’t be there… so I sent someone soft instead 🌙</div>
+
+    <div class="teddy" id="teddy">🧸</div>
+
+    <div id="message" class="message">Tap the teddy… he misses you 🤍</div>
+
+    <div class="hint">(He gives the warmest night hugs)</div>
+  </div>
+
+  <audio id="bgMusic" src="Song3.mp3" loop></audio>
+
+  <script>
+    const messages = [
+      "He says he misses you a lot 🥺",
+      "He waits with you on quiet nights 🌙",
+      "He gives soft hugs when you need comfort 🤍",
+      "He keeps bad dreams away 🧸",
+      "He holds you close when I can’t",
+      "He’s listening to your heartbeat right now 😌",
+      "He is soft but not as soft as you 🥹",
+      "He is cute but not as cute as you 🥰",
+      "Until I hug you for real… this teddy is all yours 🤍",
+      "I love you my Queen💖"
+    ];
+
+    let index = 0;
+    let musicStarted = false;
+
+    const messageBox = document.getElementById('message');
+    const teddy = document.getElementById('teddy');
+    const bgMusic = document.getElementById('bgMusic');
+    const heartsContainer = document.getElementById('hearts');
+    const starsContainer = document.getElementById('stars');
+
+    function hugTeddy() {
+      if (!musicStarted) {
+        bgMusic.volume = 0.4;
+        bgMusic.play().catch(() => {});
+        musicStarted = true;
+      }
+
+      messageBox.textContent = messages[index];
+      index = (index + 1) % messages.length;
+      spawnHearts();
+    }
+
+    function spawnHearts() {
+      for (let i = 0; i < 4; i++) {
+        const h = document.createElement('div');
+        h.className = 'heart'; h.textContent = '🤍';
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.animationDuration = 4 + Math.random() * 3 + 's';
+        heartsContainer.appendChild(h);
+        setTimeout(() => h.remove(), 7000);
+      }
+    }
+
+    function createStars() {
+      for (let i = 0; i < 60; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random() * 100 + 'vw';
+        s.style.top = Math.random() * 100 + 'vh';
+        s.style.animationDelay = Math.random() * 3 + 's';
+        starsContainer.appendChild(s);
+      }
+    }
+
+    createStars();
+    teddy.addEventListener('click', hugTeddy);
+    teddy.addEventListener('touchstart', hugTeddy);
+  </script>
+
+</body>
+</html>
